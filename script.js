@@ -134,7 +134,6 @@ addPlayerForm.addEventListener('submit', function (e) {
   }
 });
 
-
 // Função deletar player da tela
 function delPlayer(nickname) {
   const indexToRemove = playerList.findIndex(item => item.nickname === nickname);
