@@ -16,16 +16,29 @@
         <form action="" id="add-player-form">
             <br>
             <label for="add-nickname">Nickname</label>
-            <input type="text" id="add-nickname" name="nickname" maxlength="20" pattern="[A-Za-z0-9 ]+" required>
+            <input class="input" type="text" id="add-nickname" name="nickname" maxlength="20" pattern="[A-Za-z0-9 ]+" required>
             <br>
             <label for="add-vocation">Vocation</label>
-            <input type="text" id="add-vocation" name="vocation" required>
+            <select class="input" id="add-vocation" name="vocation" >
+                <option value="Retro-OpenPVP">Sorcerer</option>
+                <option value="OpenPVP">Paladin</option>
+                <option value="OptionalPVP">Knight</option>
+                <option value="Retro-HardcorePVP">Druid</option>
+            </select>
             <br>
             <label for="add-level">Level</label>
-            <input type="number" id="add-level" name="level" min="8" required>
+            <input class="input" type="number" id="add-level" name="level" min="8" required>
             <br>
             <label for="add-world">World</label>
-            <input type="text" id="add-world" name="world" required>
+            <select class="input" id="add-world" name="world" >
+                <option value="Retro-OpenPVP">Retro-OpenPVP</option>
+                <option value="OpenPVP">OpenPVP</option>
+                <option value="OptionalPVP">OptionalPVP</option>
+                <option value="Retro-HardcorePVP">Retro-HardcorePVP</option>
+            </select>
+            <br>
+            <label for="add-img">Imagem</label>
+            <input class="input" type="file" id="upload-image" name="image" accept="image/*">
             <br>
             <input class="button" type="submit" value="Adicionar">
             <br>
@@ -35,7 +48,7 @@
         <form action="" id="del-player-form">
             <br>
             <label for="del-nickname">Nickname</label>
-            <input type="text" id="del-nickname" name="nickname" maxlength="20" pattern="[A-Za-z0-9 ]+" required>
+            <input class="input" type="text" id="del-nickname" name="nickname" maxlength="20" pattern="[A-Za-z0-9 ]+" required>
             <br>
             <input class="button" type="submit" value="Remover">
             <br>

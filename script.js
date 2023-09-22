@@ -5,21 +5,23 @@ const addPlayerForm = document.querySelector('#add-player-form');
 
 // POO da aplicação
 class Player {
-  constructor(nickname, level, vocation, world) {
+  constructor(nickname, level, vocation, world, imgSRC) {
     this.nickname = nickname;
     this.level = level;
     this.vocation = vocation;
     this.world = world;
+    this.imgSRC = imgSRC;
   }
 }
 
+// Array de players
 let playerList = [
-  new Player("zope", 16, "knight", "Retro-OpenPVP"),
-  new Player("tioben", 102, "sorcerer", "OpenPVP"),
-  new Player("matuezin", 81, "druid", "OpenPVP"),
-  new Player("bluzu", 408, "paladin", "OptionalPVP"),
-  new Player("maikin", 8, "paladin", "Retro-HardcorePVP"),
-  new Player("diguin", 28, "druid", "Retro-HardcorePVP")
+  new Player("zope", 16, "knight", "Retro-OpenPVP", "img/zope.gif"),
+  new Player("tioben", 102, "sorcerer", "OpenPVP", "img/tioben.gif"),
+  new Player("matuezin", 81, "druid", "OpenPVP", "img/matuezin.gif"),
+  new Player("bluzu", 408, "paladin", "OptionalPVP", "img/bluzu.gif"),
+  new Player("maikin", 8, "paladin", "Retro-HardcorePVP", "img/maikin.gif"),
+  new Player("diguin", 28, "druid", "Retro-HardcorePVP", "img/diguin.gif")
 ];
 
 // Função para renderizar os players na main
@@ -29,6 +31,9 @@ function viewPlayers() {
     var playerContainer = document.createElement('div');
     playerContainer.innerHTML = `
     <div class="player-container">
+        <div class="image-container">
+        ${item.imgSRC ? `<img src="${item.imgSRC}" alt="char-img">` : ''}
+        </div>
         <ul>
           <li>Nickname: ${item.nickname}</li>
           <li>Vocation: ${item.vocation}</li>
@@ -43,13 +48,13 @@ function viewPlayers() {
 }
 
 // Função para adicionar player na tela
-function addPlayer(nickname, vocation, level, world){
-  playerList.unshift(new Player(nickname, level, vocation, world));
+function addPlayer(nickname, vocation, level, world, imgSRC){
+  playerList.unshift(new Player(nickname, level, vocation, world, imgSRC));
   viewPlayers();
 }
 
 // Função de validação do nickname personalizada
-function nicknameValidation (nickname, vocation, level, world){
+function nicknameValidation (nickname){
 
   // Variáveis de validação
   let isNicknameRepeated = false;
@@ -77,18 +82,17 @@ function nicknameValidation (nickname, vocation, level, world){
 
   // Retornos
   if(isNicknameRepeated){
-    return alert("Nickname existente!");
+    return "Nickname existente!";
   }
   else if(onlySpace){
-    return alert("Não é permitido:\n Apenas espaços\n Espaços no começo\n Espaços no fim");
+    return "Não é permitido:\n Apenas espaços\n Espaços no começo\n Espaços no fim";
   }
   else if (spaceInStartOrAnd){
-    return alert("Não é permitido:\n Apenas espaços\n Espaços no começo\n Espaços no fim");
+    return "Não é permitido:\n Apenas espaços\n Espaços no começo\n Espaços no fim";
   }
   else if((isNicknameRepeated == false) && (onlySpace == false) && (spaceInStartOrAnd == false)){
-    return addPlayer(nickname, vocation, level, world);
+    return nickname;
   }
-  
 
 }
 
@@ -101,10 +105,35 @@ addPlayerForm.addEventListener('submit', function (e) {
   const level = parseInt(document.querySelector('#add-level').value);
   const world = document.querySelector('#add-world').value;
 
-  nicknameValidation(nickname, vocation, level, world);
+  // Obtenha o arquivo de imagem selecionado pelo usuário
+  const imageInput = document.querySelector('#upload-image');
+  const imageFile = imageInput.files[0];
 
-  addPlayerForm.reset();
+  if (nicknameValidation(nickname) === nickname) {
+    if (imageFile) {
+      // Se um arquivo de imagem foi selecionado, faça a leitura
+      const reader = new FileReader();
+      reader.onload = function () {
+        const imageDataURL = reader.result;
+
+        const newPlayer = new Player(nickname, level, vocation, world, imageDataURL);
+        playerList.unshift(newPlayer);
+        viewPlayers();
+        addPlayerForm.reset();
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      // Se nenhum arquivo de imagem foi selecionado, crie um novo jogador sem imagem
+      const newPlayer = new Player(nickname, level, vocation, world, null); // Passa null como imagem
+      playerList.unshift(newPlayer);
+      viewPlayers();
+      addPlayerForm.reset();
+    }
+  } else {
+    alert(nicknameValidation(nickname));
+  }
 });
+
 
 // Função deletar player da tela
 function delPlayer(nickname) {
