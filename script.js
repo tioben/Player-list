@@ -14,7 +14,6 @@ class Player {
   }
 }
 
-// Array de players
 let playerList = [
   new Player("zope", 16, "knight", "Retro-OpenPVP", "img/zope.gif"),
   new Player("tioben", 102, "sorcerer", "OpenPVP", "img/tioben.gif"),
